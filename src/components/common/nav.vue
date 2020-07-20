@@ -2,7 +2,7 @@
   <el-aside width="200px">
     <el-col>
       <el-menu
-        :default-active="defaultActive"
+        :default-active="$route.path"
         class="el-menu-vertical-demo"
         background-color="#545c64"
         text-color="#fff"
@@ -13,7 +13,7 @@
           <i class="el-icon-menu"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-submenu index="1" v-for="item in getMenuList" :key="item.id">
+        <el-submenu :index="item.id.toString()" v-for="item in getMenuList" :key="item.id">
           <template slot="title">
             <i class="el-icon-setting"></i>
             <span>{{ item.title }}</span>

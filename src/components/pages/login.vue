@@ -29,12 +29,10 @@ export default {
       } else {
         let passWordTest = /(?!^\d+$)^.{6,18}$/;
         if (!passWordTest.test(this.userInfo.passWord)) {
-          callback(
-            new Error("至少6-18个数字字母组合")
-          );
+          callback(new Error("至少6-18个数字字母组合"));
         }
       }
-      callback()
+      callback();
     };
     return {
       userInfo: {
@@ -54,10 +52,13 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if(this.userInfo.name == 'admin' && this.userInfo.passWord == '123456abc'){
-              this.$router.push('/index')
-          }else{
-              this.$message.error('密码错误 请重试')
+          if (
+            this.userInfo.name == "admin" &&
+            this.userInfo.passWord == "123456abc"
+          ) {
+            this.$router.push("/home");
+          } else {
+            this.$message.error("密码错误 请重试");
           }
         } else {
           console.log("error submit!!");
@@ -74,6 +75,7 @@ export default {
 
 <style  lang="stylus" scoped>
 @import '../../stylus/index.styl';
+
 .login {
   background-color: $loginBgcColor;
   width: 100vw;
@@ -88,10 +90,9 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
 
-    .el-input{
-        width 300px
+    .el-input {
+      width: 300px;
     }
-
   }
 }
 </style>

@@ -2,6 +2,8 @@
 
 import axios from './axios'
 
+
+//     ==================   菜单接口
 //添加菜单列表
 export function addMenuList(data){
     return axios.post('/api/menuadd',data)
@@ -21,8 +23,7 @@ export function delMenuList(data){
 
 
 //获取特定条数据
-export function getInfo(params){
-    console.log(params);
+export function getMenuInfo(params){
     return axios.get('/api/menuinfo',{
         params
     })
@@ -30,6 +31,38 @@ export function getInfo(params){
 
 //修改菜单列表
 export function EditMenuList(data){
-    console.log(data);
     return axios.post('/api/menuedit',data)
+}
+
+
+
+//     ==================   角色接口
+//添加菜单列表
+export function addRoleList(data){
+    return axios.post('/api/roleadd',data)
+}
+
+//获取菜单列表
+export function getRoleList(params){
+    return axios.get('/api/rolelist',{
+        params
+    })
+}
+
+//删除菜单列表
+export function delRoleList(data){
+    return axios.post('/api/roledelete',data)
+}
+
+
+//获取特定条数据
+export function getRoleInfo(params){
+    return axios.get('/api/roleinfo',{
+        params
+    })
+}
+
+//修改菜单列表
+export function EditRoleList(data){
+    return axios.post('/api/roleedit',data)
 }

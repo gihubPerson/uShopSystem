@@ -40,12 +40,21 @@
         <el-form-item label="上级菜单" :label-width="formLabelWidth">
           <el-select v-model="sessionForm.pid" placeholder="请选择上级菜单">
             <el-option label="顶级菜单" :value="0"></el-option>
-            <el-option v-for="item in getMenuList" :key="item.id" :label="item.title" :value="item.id"></el-option>
+            <el-option
+              v-for="item in getMenuList"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="菜单类型" :label-width="formLabelWidth" prop="type">
-          <el-radio v-model="sessionForm.type" :label="1">目录</el-radio>
-          <el-radio v-model="sessionForm.type" :label="2">菜单</el-radio>
+          <template>
+            <el-radio-group v-model="sessionForm.type">
+              <el-radio :label="1">目录</el-radio>
+              <el-radio :label="2">菜单</el-radio>
+            </el-radio-group>
+          </template>
         </el-form-item>
         <el-form-item
           v-if="sessionForm.type == 2"
@@ -73,14 +82,14 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { addMenuList, delMenuList, getInfo, EditMenuList } from "../../axios";
+import { addMenuList, delMenuList, getMenuInfo, EditMenuList } from "../../axios";
 export default {
   data() {
     return {
       rules: {
-        // title: [{ required: true, message: "请输入内容", trigger: "blur" }],
-        // type: [{ required: true, message: "请输入内容", trigger: "blur" }],
-        // url: [{ required: true, message: "请输入内容", trigger: "blur" }]
+        title: [{ required: true, message: "请输入内容", trigger: "blur" }],
+        type: [{ required: true, message: "请输入内容", trigger: "blur" }],
+        url: [{ required: true, message: "请输入内容", trigger: "blur" }]
       },
       isAdd: true,
       dialogFormVisible: false,
@@ -88,7 +97,7 @@ export default {
       sessionForm: {
         title: "",
         pid: "",
-        type: "",
+        type: 1,
         status: "",
         url: "",
         icon: ""
@@ -111,23 +120,23 @@ export default {
       this.isAdd = true;
       this.dialogFormVisible = true;
     },
+
     //添加菜单项
     push(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.sessionForm.status = this.status ? "1" : "2";
-          console.log(this.sessionForm);
           addMenuList(this.sessionForm).then(res => {
             if (res.data.code == 200) {
               this.$message.success(res.data.msg);
               this.changeMenuListY();
+              this.dialogFormVisible = false;
             } else if (res.data.code == 500) {
               this.$message.warning(res.data.msg);
             } else {
               this.$message.error(res.data.msg);
             }
           });
-          this.dialogFormVisible = false;
         } else {
           console.log("error submit!!");
           return false;
@@ -170,28 +179,34 @@ export default {
     //点击编辑按钮  获取当条信息 并赋值给弹框 并弹出
     edit(id) {
       this.isAdd = false;
-      getInfo({ id }).then(res => {
+      getMenuInfo({ id }).then(res => {
         this.sessionForm = res.data.list;
         this.dialogFormVisible = true;
         this.sessionForm.id = id;
       });
     },
-
+  
     //点击更新按钮  更新数据
-    update() {
-      EditMenuList(this.sessionForm).then(res => {
-        console.log(res);
+    update(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          EditMenuList(this.sessionForm).then(res => {
         if (res.data.code == 200) {
           this.$message.success(res.data.msg);
           this.changeMenuListY();
+      this.dialogFormVisible = false;
         } else if (res.data.code == 500) {
           this.$message.warning(res.data.msg);
         } else {
           this.$message.error(res.data.msg);
         }
       });
-      this.dialogFormVisible = false;
-    }
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
   },
   watch: {
     dialogFormVisible(newV) {
@@ -199,6 +214,7 @@ export default {
         this.sessionForm = {
           title: "",
           pid: "",
+          type: 1,
           radio: "",
           status: "",
           url: ""
