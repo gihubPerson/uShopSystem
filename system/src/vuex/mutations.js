@@ -11,5 +11,8 @@ export default{
     changeCateList(state,n){  //更新商品分类列表
         state.cateList = n
     },
+    changeSpecsList(state,n){  //更新商品规格列表
+        state.specsList = n
+    },
 
 }

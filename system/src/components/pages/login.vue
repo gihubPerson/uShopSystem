@@ -10,8 +10,8 @@
       <el-form-item label="用户名" prop="username">
         <el-input v-model="userInfo.username"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="passWord">
-        <el-input v-model="userInfo.passWord" type="password"></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="userInfo.password" type="password"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('userInfo')">登录</el-button>
@@ -28,8 +28,8 @@ export default {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        let passWordTest = /(?!^\d+$)^.{6,18}$/;
-        if (!passWordTest.test(this.userInfo.passWord)) {
+        let passwordTest = /(?!^\d+$)^.{6,18}$/;
+        if (!passwordTest.test(this.userInfo.password)) {
           callback(new Error("至少6-18个数字字母组合"));
         }
       }
@@ -38,14 +38,14 @@ export default {
     return {
       userInfo: {
         username: "",
-        passWord: ""
+        password: ""
       },
       rules: {
         username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ],
-        passWord: { validator: validatePass, trigger: "blur" }
+        password: { validator: validatePass, trigger: "blur" }
       }
     };
   },
@@ -55,10 +55,17 @@ export default {
         if (valid) {
           userLogin(this.userInfo).then((res)=>{
             console.log(res);
+            if(res.data.code == 200){
+              this.$message.success("登录成功")
+              localStorage.setItem("userInfo",JSON.stringify(res.data.list))
+              this.$router.push("/home");
+            }else if(res.data.code == 500){
+              this.$message.error("请检查用户名密码")
+            }
           })
           // if (
           //   this.userInfo.name == "admin" &&
-          //   this.userInfo.passWord == "123456abc"
+          //   this.userInfo.password == "123456abc"
           // ) {
           //   this.$router.push("/home");
           // } else {

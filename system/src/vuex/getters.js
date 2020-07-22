@@ -13,4 +13,8 @@ export default {
         
         return state.cateList
     },
+    getSpecsList(state){          //获取商品分类列表计算属性
+        
+        return state.specsList
+    },
 }

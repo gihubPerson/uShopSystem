@@ -13,13 +13,17 @@
           <i class="el-icon-menu"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-submenu :index="item.id.toString()" v-for="item in getMenuList" :key="item.id">
+        <el-submenu :index="item.id.toString()" v-for="item in navMenuList" :key="item.id">
           <template slot="title">
             <i class="el-icon-setting"></i>
             <span>{{ item.title }}</span>
           </template>
-          <el-menu-item-group >
-            <el-menu-item :index="theItem.url" v-for="theItem in item.children" :key="theItem.id">{{ theItem.title }}</el-menu-item>
+          <el-menu-item-group>
+            <el-menu-item
+              :index="theItem.url"
+              v-for="theItem in item.children"
+              :key="theItem.id"
+            >{{ theItem.title }}</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -28,23 +32,22 @@
 </template>
 
 <script>
-import { mapGetters,mapActions } from "vuex";
 export default {
   data() {
     return {
-      defaultActive: "/home"
+      defaultActive: "/home",
+      navMenuList: {}
     };
   },
-  computed: {
-    ...mapGetters(['getMenuList'])
-  },
+  computed: {},
   mounted() {
-    //获取菜单数据渲染进getMenuList
-    this.changeMenuListY();
+    this.getUserInfo()
   },
   methods: {
-    ...mapActions(["changeMenuListY"]),
-  },
+    getUserInfo() {
+      this.navMenuList = JSON.parse(localStorage.getItem("userInfo")).menus
+    }
+  }
 };
 </script>
 

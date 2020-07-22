@@ -58,17 +58,7 @@
         </el-form-item>
 
         <el-form-item v-if="sessionForm.type == 2" label="菜单地址" :label-width="formLabelWidth">
-          <el-select v-if="isAdd" v-model="sessionForm.url" placeholder="请选择菜单地址">
-            <template v-for="items in getMenuList">
-              <el-option
-                v-for="item in items.children"
-                :key="item.id"
-                :label="item.url"
-                :value="item.url"
-              ></el-option>
-            </template>
-          </el-select>
-          <el-input v-else v-model="sessionForm.url" autocomplete="off"></el-input>
+          <el-input v-model="sessionForm.url" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item v-else label="菜单图标" :label-width="formLabelWidth">

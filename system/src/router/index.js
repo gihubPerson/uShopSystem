@@ -51,6 +51,20 @@ let router = new Router({
           }
         },
         {
+          path: '/specs',
+          component: () => import('../components/views/specs'),
+          meta: {
+            name: '商品规格'
+          }
+        },
+        {
+          path: '/goods',
+          component: () => import('../components/views/goods'),
+          meta: {
+            name: '商品管理'
+          }
+        },
+        {
           path: '*',
           redirect: '/home'
         }

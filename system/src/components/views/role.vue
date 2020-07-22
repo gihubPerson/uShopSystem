@@ -30,6 +30,7 @@
             ref="tree"
             :data="getMenuList"
             show-checkbox
+            check-strictly="true"
             node-key="id"
             default-expand-all
             :default-checked-keys="defaultKey"

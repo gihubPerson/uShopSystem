@@ -142,3 +142,40 @@ export function getCateInfo(params){
 export function EditCateList(data){
     return axios.post('/api/cateedit',data)
 }
+
+
+
+//     ==================   商品规格接口
+//添加商品规格列表
+export function addSpecsList(data){
+    return axios.post('/api/specsadd',data)
+}
+
+//获取商品规格列表
+export function getSpecsList(params){
+    return axios.get('/api/specslist',{
+        params
+    })
+}
+
+//删除商品规格列表
+export function delSpecsList(data){
+    return axios.post('/api/specsdelete',data)
+}
+
+
+//获取特定条数据
+export function getSpecsInfo(params){
+    return axios.get('/api/specsinfo',{
+        params
+    })
+}
+
+//修改商品规格列表
+export function EditSpecsList(data){
+    return axios.post('/api/specsedit',data)
+}
+//修改商品规格列表
+export function getSpecsCount(){
+    return axios.get('/api/specscount')
+}
