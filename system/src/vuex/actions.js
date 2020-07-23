@@ -1,4 +1,4 @@
-import {getMenuList,getRoleList,getUserList,getCateList,getSpecsList} from '../axios'
+import {getMenuList,getRoleList,getUserList,getCateList,getSpecsList,getGoodsList} from '../axios'
 
 export default {
     changeMenuListY({ commit }) {            //调用此异步函数传参修改菜单列表
@@ -32,6 +32,12 @@ export default {
     changeSpecsListY({ commit },userInfo) {            //调用此异步函数传参修改商品规格列表
         getSpecsList(userInfo).then((res) => {
             commit('changeSpecsList', res.data.list)
+        })
+    }, 
+
+    changeGoodsListY({ commit },userInfo) {            //调用此异步函数传参修改商品管理列表
+        getGoodsList(userInfo).then((res) => {
+            commit('changeGoodsList', res.data.list)
         })
     },
 }

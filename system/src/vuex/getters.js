@@ -17,4 +17,8 @@ export default {
         
         return state.specsList
     },
+    getGoodsList(state){          //获取商品管理列表计算属性
+        
+        return state.goodsList
+    },
 }

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>{{sessionForm.second_cateid}}</h1>
     <el-button type="primary" class="add" @click="add">添加</el-button>
     <el-table
       :data="getGoodsList"
@@ -108,7 +109,12 @@
 
         <el-form-item label="规格属性" :label-width="formLabelWidth">
           <el-select multiple v-model="sessionForm.specsattr" placeholder="请选择">
-            <el-option v-for="item in attrArr" :key="item" :label="item" :value="item"></el-option>
+            <el-option
+              v-for="item in attrArr"
+              :key="item"
+              :label="item"
+              :value="item"
+            ></el-option>
           </el-select>
         </el-form-item>
 
@@ -121,9 +127,6 @@
         <el-form-item label="状态" :label-width="formLabelWidth">
           <el-switch v-model="status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
         </el-form-item>
-        <el-form-item label="描述" :label-width="formLabelWidth">
-          <div ref="desc" id="desc"></div>
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -135,8 +138,6 @@
 </template>
 
 <script>
-import E from "wangeditor";
-
 import { mapGetters, mapActions } from "vuex";
 import {
   addGoodsList,
@@ -147,8 +148,6 @@ import {
 export default {
   data() {
     return {
-      //富文本内容
-      editor: "",
       theUrl: "",
       fileList: [],
       imgUrl: "",
@@ -165,7 +164,7 @@ export default {
       //二级菜单列表
       secondArr: [],
       //属性列表
-      attrArr: [],
+      attrArr:[],
       sessionForm: {
         first_cateid: "",
         second_cateid: "",
@@ -184,7 +183,7 @@ export default {
   },
   computed: {
     //获取菜单列表getGoodsList
-    ...mapGetters(["getGoodsList", "getCateList", "getSpecsList"]),
+    ...mapGetters(["getGoodsList", "getCateList","getSpecsList"]),
   },
   mounted() {
     //获取菜单数据渲染进getGoodsList
@@ -193,15 +192,7 @@ export default {
     this.changeSpecsListY();
   },
   methods: {
-    ...mapActions(["changeGoodsListY", "changeCateListY", "changeSpecsListY"]),
-
-    //打开弹窗
-    openEditor() {
-      setTimeout(() => {
-        this.editor = new E("#desc");
-        this.editor.create();
-      }, 10);
-    },
+    ...mapActions(["changeGoodsListY", "changeCateListY",'changeSpecsListY']),
 
     //删除图片
     handleRemove(file, fileList) {
@@ -229,7 +220,6 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = this.sessionForm;
-          data.description = this.$refs.desc.innerHTML
           data.status = this.status ? "1" : "2";
           data.ishot = this.ishot ? "1" : "2";
           data.isnew = this.isnew ? "1" : "2";
@@ -292,16 +282,12 @@ export default {
     //点击编辑按钮  获取当条信息 并赋值给弹框 并弹出
     edit(id) {
       this.isAdd = false;
-        this.openEditor()
       getGoodsInfo({ id }).then((res) => {
         console.log(res);
-        this.sessionForm.description = res.data.list.description
         this.sessionForm = res.data.list;
-        this.sessionForm.specsattr =
-          res.data.list.specsattr != ""
-            ? res.data.list.specsattr.split(",")
-            : [];
-
+        if (this.sessionForm.pid == 0) {
+          this.sessionForm.pid = res.data.list.pid.toString();
+        }
         this.fileList = [{ url: "http://localhost:3000/" + res.data.list.img }];
         this.theUrl = res.data.list.img;
         this.dialogFormVisible = true;
@@ -314,7 +300,6 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = this.sessionForm;
-          data.description = this.$refs.desc.innerHTML
           data.status = this.status ? "1" : "2";
           data.ishot = this.ishot ? "1" : "2";
           data.isnew = this.isnew ? "1" : "2";
@@ -343,25 +328,6 @@ export default {
     },
   },
   watch: {
-    "sessionForm.status": {
-      handler(newV) {
-        this.status = newV == "1" ? true : false;
-      },
-      deep: true,
-    },
-    "sessionForm.ishot": {
-      handler(newV) {
-        this.ishot = newV == "1" ? true : false;
-      },
-      deep: true,
-    },
-    "sessionForm.isnew": {
-      handler(newV) {
-        this.isnew = newV == "1" ? true : false;
-      },
-      deep: true,
-    },
-
     dialogFormVisible(newV) {
       if (!newV) {
         this.sessionForm = {
@@ -381,9 +347,7 @@ export default {
         this.fileList = [];
         this.imgUrl = "";
         this.theUrl = "";
-        this.secondArr = [];
-        this.attrArr = [];
-        this.$refs.desc.innerHTML = ''
+        this.secondArr = []
         //未填信息验证清除
         this.resetForm("session");
       }
@@ -391,6 +355,7 @@ export default {
     //一级分类选择之后,请求二级分类
     "sessionForm.first_cateid": {
       handler(id) {
+        this.sessionForm.second_cateid = ''
         this.getCateList.map((item) => {
           if (item.id == id) {
             this.secondArr = item.children;
@@ -402,11 +367,11 @@ export default {
     //选择规格之后获取属性
     "sessionForm.specsid": {
       handler(id) {
-        this.getSpecsList.map((item) => {
-          if (item.id == id) {
-            this.attrArr = item.attrs;
+        this.getSpecsList.map(item=>{
+          if(item.id == id){
+            this.attrArr = item.attrs
           }
-        });
+        })
       },
       deep: true,
     },

@@ -175,7 +175,44 @@ export function getSpecsInfo(params){
 export function EditSpecsList(data){
     return axios.post('/api/specsedit',data)
 }
-//修改商品规格列表
+//获取数量列表
 export function getSpecsCount(){
     return axios.get('/api/specscount')
+}
+
+
+
+//     ==================   商品管理接口
+//添加商品管理列表
+export function addGoodsList(data){
+    return axios.post('/api/goodsadd',data)
+}
+
+//获取商品管理列表
+export function getGoodsList(params){
+    return axios.get('/api/goodslist',{
+        params
+    })
+}
+
+//删除商品管理列表
+export function delGoodsList(data){
+    return axios.post('/api/goodsdelete',data)
+}
+
+
+//获取特定条数据
+export function getGoodsInfo(params){
+    return axios.get('/api/goodsinfo',{
+        params
+    })
+}
+
+//修改商品管理列表
+export function EditGoodsList(data){
+    return axios.post('/api/goodsedit',data)
+}
+//获取数量列表
+export function getGoodsCount(){
+    return axios.get('/api/goodscount')
 }
