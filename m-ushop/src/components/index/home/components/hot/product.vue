@@ -4,7 +4,7 @@
       <img :src="item.imSrc" alt="脸霜" />
       <div class="text">
         <h5>{{ item.title }}</h5>
-        <div class="price">￥{{item.price}}</div>
+        <div class="price">￥{{item.price | toPrice(2)}}</div>
         <div class="number">已销售{{ item.num }}件</div>
         <a href="detail.html">立即抢购</a>
       </div>

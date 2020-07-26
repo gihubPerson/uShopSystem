@@ -64,7 +64,11 @@ let r = new Router({
     },
     {
       path:'/login',
-      component:()=>import('../components/login.vue')
+      component:()=>import('../components/login/login')
+    },
+    {
+      path:'/signup',
+      component:()=>import('../components/signUp/signup')
     },
     {
       path:"*",

@@ -1,7 +1,8 @@
-//这里面可以引入N个过滤器
-import toPrice from './toPrice'
+const toPrice = function(n,m) {
+    n = Number(n)
+    return n.toFixed(m)
+}
 
-//以对象的形式导出
 export default {
     toPrice
 }

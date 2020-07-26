@@ -20,10 +20,16 @@ for(let item in com){
   Vue.component(item,com[item])
 }
 //全局过滤器
-import myFilters from './filters'
-for(let item in myFilters){
-  Vue.filter(item,myFilters[item])
+import allFilter from "./filters"
+for(let item in allFilter){
+  Vue.filter(item,allFilter[item])
 }
+
+//引入Vant
+import Vant from 'vant';
+import 'vant/lib/index.css';
+
+Vue.use(Vant);
 
 new Vue({
   el: '#app',
