@@ -200,7 +200,7 @@ export default {
       setTimeout(() => {
         this.editor = new E("#desc");
         this.editor.create();
-      }, 10);
+      }, 5);
     },
 
     //删除图片
@@ -220,6 +220,7 @@ export default {
     },
 
     add() {
+      this.openEditor();
       this.isAdd = true;
       this.dialogFormVisible = true;
     },
@@ -229,11 +230,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = this.sessionForm;
-          data.description = this.$refs.desc.innerHTML
+          console.log(this.$refs.desc.innerHTML);
+          data.description = this.editor.txt.html();
           data.status = this.status ? "1" : "2";
           data.ishot = this.ishot ? "1" : "2";
           data.isnew = this.isnew ? "1" : "2";
-          console.log(data);
           let file = new FormData();
           for (let item in data) {
             file.append(item, data[item]);
@@ -292,10 +293,10 @@ export default {
     //点击编辑按钮  获取当条信息 并赋值给弹框 并弹出
     edit(id) {
       this.isAdd = false;
-        this.openEditor()
+      this.openEditor();
       getGoodsInfo({ id }).then((res) => {
         console.log(res);
-        this.sessionForm.description = res.data.list.description
+        this.editor.txt.html(res.data.list.description);
         this.sessionForm = res.data.list;
         this.sessionForm.specsattr =
           res.data.list.specsattr != ""
@@ -314,7 +315,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = this.sessionForm;
-          data.description = this.$refs.desc.innerHTML
+          console.log(this.editor.txt.html());
+          data.description = this.editor.txt.html();
           data.status = this.status ? "1" : "2";
           data.ishot = this.ishot ? "1" : "2";
           data.isnew = this.isnew ? "1" : "2";
@@ -384,6 +386,7 @@ export default {
         this.secondArr = [];
         this.attrArr = [];
         this.$refs.desc.innerHTML = ''
+        this.editor.txt.html();
         //未填信息验证清除
         this.resetForm("session");
       }

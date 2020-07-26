@@ -53,6 +53,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          console.log(this.userInfo);
           userLogin(this.userInfo).then((res)=>{
             console.log(res);
             if(res.data.code == 200){

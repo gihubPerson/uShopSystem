@@ -1,36 +1,16 @@
 <template>
   <div>
-    <h1>{{sessionForm.second_cateid}}</h1>
+    <h1>{{sessionForm.begintime}}</h1>
     <el-button type="primary" class="add" @click="add">添加</el-button>
     <el-table
-      :data="getGoodsList"
+      :data="getSeckList"
       style="width: 100%"
       row-key="id"
       border
       :tree-props="{children: 'children'}"
     >
-      <el-table-column prop="id" label="商品编号"></el-table-column>
-      <el-table-column prop="goodsname" label="商品名称"></el-table-column>
-      <el-table-column prop="price" label="商品价格"></el-table-column>
-      <el-table-column prop="market_price" label="市场价格"></el-table-column>
+      <el-table-column prop="title" label="活动名称"></el-table-column>
 
-      <el-table-column label="图片">
-        <template slot-scope="item">
-          <img :src="'http://localhost:3000/' + item.row.img " />
-        </template>
-      </el-table-column>
-      <el-table-column label="是否新品">
-        <template slot-scope="item">
-          <el-tag v-if="item.row.isnew == 1" type="success">启用</el-tag>
-          <el-tag v-else type="danger">禁用</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="是否热卖">
-        <template slot-scope="item">
-          <el-tag v-if="item.row.ishot == 1" type="success">启用</el-tag>
-          <el-tag v-else type="danger">禁用</el-tag>
-        </template>
-      </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="item">
           <el-tag v-if="item.row.status == 1" type="success">启用</el-tag>
@@ -48,6 +28,24 @@
     <!-- 弹出窗 -->
     <el-dialog title="商品添加" :visible.sync="dialogFormVisible">
       <el-form :model="sessionForm" :rules="rules" ref="session">
+        <el-form-item label="活动名称" :label-width="formLabelWidth" prop="title">
+          <el-input v-model="sessionForm.title" autocomplete="off"></el-input>
+        </el-form-item>
+        <!-- 时间 -->
+        <el-form-item label="活动名称" :label-width="formLabelWidth" prop="title">
+          <div class="block">
+            <span class="demonstration">默认</span>
+            <el-date-picker
+              v-model="time"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            ></el-date-picker>
+          </div>
+        </el-form-item>
+
+        <!-- 分类 -->
         <el-form-item label="一级分类" :label-width="formLabelWidth">
           <el-select v-model="sessionForm.first_cateid" placeholder="请选择">
             <el-option
@@ -68,62 +66,17 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="商品名称" :label-width="formLabelWidth">
-          <el-input v-model="sessionForm.goodsname" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商品价格" :label-width="formLabelWidth">
-          <el-input v-model="sessionForm.price" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="市场价格" :label-width="formLabelWidth">
-          <el-input v-model="sessionForm.market_price" autocomplete="off"></el-input>
-        </el-form-item>
-
-        <!-- 图片 -->
-        <el-form-item label="图片" :label-width="formLabelWidth">
-          <el-upload
-            action="#"
-            list-type="picture-card"
-            :auto-upload="false"
-            :file-list="fileList"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :on-change="changeImg"
-          >
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt />
-          </el-dialog>
-        </el-form-item>
-
-        <el-form-item label="商品规格" :label-width="formLabelWidth">
-          <el-select v-model="sessionForm.specsid" placeholder="请选择">
+        <el-form-item label="商品" :label-width="formLabelWidth">
+          <el-select v-model="sessionForm.goodsid" placeholder="请选择">
             <el-option
-              v-for="item in getSpecsList"
+              v-for="item in goodsArr"
               :key="item.id"
-              :label="item.specsname"
-              :value="item.id"
+              :label="item.goodsname"
+              :value="item.goodsid"
             ></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="规格属性" :label-width="formLabelWidth">
-          <el-select multiple v-model="sessionForm.specsattr" placeholder="请选择">
-            <el-option
-              v-for="item in attrArr"
-              :key="item"
-              :label="item"
-              :value="item"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="是否新品" :label-width="formLabelWidth">
-          <el-switch v-model="isnew" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-        </el-form-item>
-        <el-form-item label="是否热卖" :label-width="formLabelWidth">
-          <el-switch v-model="ishot" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-        </el-form-item>
         <el-form-item label="状态" :label-width="formLabelWidth">
           <el-switch v-model="status" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
         </el-form-item>
@@ -138,78 +91,84 @@
 </template>
 
 <script>
+import E from "wangeditor";
+
 import { mapGetters, mapActions } from "vuex";
 import {
-  addGoodsList,
-  delGoodsList,
-  getGoodsInfo,
-  EditGoodsList,
+  addSeckList,
+  delSeckList,
+  getSeckInfo,
+  EditSeckList,
 } from "../../axios";
 export default {
   data() {
     return {
-      theUrl: "",
-      fileList: [],
-      imgUrl: "",
       dialogImageUrl: "",
       dialogVisible: false,
       rules: {
-        catename: [{ required: true, message: "请输入内容", trigger: "blur" }],
+        title: [{ required: true, message: "请输入内容", trigger: "blur" }],
+        date1: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change",
+          },
+        ],
+        date2: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择时间",
+            trigger: "change",
+          },
+        ],
       },
+
       isAdd: true,
       dialogFormVisible: false,
       status: true,
-      isnew: true,
-      ishot: true,
       //二级菜单列表
       secondArr: [],
-      //属性列表
-      attrArr:[],
+      //筛选出的商品数组
+      goodsArr: [],
+      //时间数组
+      time: [],
       sessionForm: {
+        title: "",
         first_cateid: "",
         second_cateid: "",
-        goodsname: "",
-        price: "",
-        market_price: "",
-        description: "",
-        specsid: "",
-        specsattr: [],
-        isnew: "",
-        ishot: "",
+        goodsid: "",
+        begintime: "",
+        endtime: "",
         status: "",
       },
       formLabelWidth: "120px",
     };
   },
   computed: {
-    //获取菜单列表getGoodsList
-    ...mapGetters(["getGoodsList", "getCateList","getSpecsList"]),
+    //获取菜单列表getSeckList
+    ...mapGetters([
+      "getSeckList",
+      "getCateList",
+      "getSpecsList",
+      "getGoodsList",
+    ]),
   },
   mounted() {
-    //获取菜单数据渲染进getGoodsList
-    this.changeGoodsListY();
+    //获取菜单数据渲染进getSeckList
+    this.changeSeckListY();
     this.changeCateListY();
     this.changeSpecsListY();
+    this.changeGoodsListY();
   },
   methods: {
-    ...mapActions(["changeGoodsListY", "changeCateListY",'changeSpecsListY']),
-
-    //删除图片
-    handleRemove(file, fileList) {
-      this.imgUrl = file.raw;
-      console.log(file, fileList);
-    },
-
-    handlePictureCardPreview(file) {
-      this.imgUrl = file.raw;
-      this.dialogVisible = true;
-    },
-    //上传图片之后获取传上去的地址
-    changeImg(file) {
-      console.log(file);
-      this.imgUrl = file.raw;
-    },
-
+    ...mapActions([
+      "changeSeckListY",
+      "changeCateListY",
+      "changeSpecsListY",
+      "changeGoodsListY",
+    ]),
     add() {
       this.isAdd = true;
       this.dialogFormVisible = true;
@@ -221,18 +180,11 @@ export default {
         if (valid) {
           let data = this.sessionForm;
           data.status = this.status ? "1" : "2";
-          data.ishot = this.ishot ? "1" : "2";
-          data.isnew = this.isnew ? "1" : "2";
           console.log(data);
-          let file = new FormData();
-          for (let item in data) {
-            file.append(item, data[item]);
-          }
-          file.append("img", this.imgUrl);
-          addGoodsList(file).then((res) => {
+          addSeckList(data).then((res) => {
             if (res.data.code == 200) {
               this.$message.success(res.data.msg);
-              this.changeGoodsListY();
+              this.changeSeckListY();
               this.dialogFormVisible = false;
             } else if (res.data.code == 500) {
               this.$message.warning(res.data.msg);
@@ -258,10 +210,10 @@ export default {
         type: "warning",
       })
         .then(() => {
-          delGoodsList({ id }).then((res) => {
+          delSeckList({ id }).then((res) => {
             if (res.data.code == 200) {
               this.$message.success(res.data.msg);
-              this.changeGoodsListY();
+              this.changeSeckListY();
             } else {
               this.$message.error(res.data.msg);
             }
@@ -282,16 +234,14 @@ export default {
     //点击编辑按钮  获取当条信息 并赋值给弹框 并弹出
     edit(id) {
       this.isAdd = false;
-      getGoodsInfo({ id }).then((res) => {
+      getSeckInfo({ id }).then((res) => {
         console.log(res);
         this.sessionForm = res.data.list;
-        if (this.sessionForm.pid == 0) {
-          this.sessionForm.pid = res.data.list.pid.toString();
-        }
-        this.fileList = [{ url: "http://localhost:3000/" + res.data.list.img }];
-        this.theUrl = res.data.list.img;
         this.dialogFormVisible = true;
         this.sessionForm.id = id;
+        this.time[0] = new Date(res.data.list.begintime).toLocaleString()
+        this.time[1]=  new Date(res.data.list.endtime).toLocaleString()
+        console.log(this.time);
       });
     },
 
@@ -301,18 +251,10 @@ export default {
         if (valid) {
           let data = this.sessionForm;
           data.status = this.status ? "1" : "2";
-          data.ishot = this.ishot ? "1" : "2";
-          data.isnew = this.isnew ? "1" : "2";
-          let file = new FormData();
-          for (let item in data) {
-            file.append(item, data[item]);
-          }
-          file.append("img", this.imgUrl == "" ? this.theUrl : this.imgUrl);
-          console.log(file);
-          EditGoodsList(file).then((res) => {
+          EditSeckList(data).then((res) => {
             if (res.data.code == 200) {
               this.$message.success(res.data.msg);
-              this.changeGoodsListY();
+              this.changeSeckListY();
               this.dialogFormVisible = false;
             } else if (res.data.code == 500) {
               this.$message.warning(res.data.msg);
@@ -328,26 +270,33 @@ export default {
     },
   },
   watch: {
+    time(newT) {
+      if (newT != "") {
+        this.sessionForm.begintime = newT[0].getTime();
+        this.sessionForm.endtime = newT[1].getTime();
+      }
+    },
+    "sessionForm.status": {
+      handler(newV) {
+        this.status = newV == "1" ? true : false;
+      },
+      deep: true,
+    },
     dialogFormVisible(newV) {
       if (!newV) {
         this.sessionForm = {
+          title: "",
           first_cateid: "",
           second_cateid: "",
-          goodsname: "",
-          price: "",
-          market_price: "",
-          description: "",
-          specsid: "",
-          specsattr: [],
-          isnew: "",
-          ishot: "",
+          goodsid: "",
+          begintime: "",
+          endtime: "",
           status: "",
         };
         this.status = true;
-        this.fileList = [];
-        this.imgUrl = "";
-        this.theUrl = "";
-        this.secondArr = []
+        this.secondArr = [];
+        this.goodsArr = [];
+        this.time = [];
         //未填信息验证清除
         this.resetForm("session");
       }
@@ -355,7 +304,7 @@ export default {
     //一级分类选择之后,请求二级分类
     "sessionForm.first_cateid": {
       handler(id) {
-        this.sessionForm.second_cateid = ''
+        this.goodsArr = [];
         this.getCateList.map((item) => {
           if (item.id == id) {
             this.secondArr = item.children;
@@ -364,14 +313,20 @@ export default {
       },
       deep: true,
     },
-    //选择规格之后获取属性
-    "sessionForm.specsid": {
-      handler(id) {
-        this.getSpecsList.map(item=>{
-          if(item.id == id){
-            this.attrArr = item.attrs
+    // 选择玩分类之后  筛选出合适的商品
+    "sessionForm.second_cateid": {
+      handler(secondCateId) {
+        this.getGoodsList.map((item) => {
+          if (
+            item.first_cateid == this.sessionForm.first_cateid &&
+            item.second_cateid == this.sessionForm.second_cateid
+          ) {
+            this.goodsArr.push({
+              goodsid: item.id,
+              goodsname: item.goodsname,
+            });
           }
-        })
+        });
       },
       deep: true,
     },
@@ -382,11 +337,5 @@ export default {
 <style  lang="stylus" scoped>
 .add {
   margin: 10px 0 10px 0;
-}
-
-.el-table {
-  img {
-    height: 80px;
-  }
 }
 </style>

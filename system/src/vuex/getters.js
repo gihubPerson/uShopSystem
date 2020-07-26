@@ -21,4 +21,16 @@ export default {
         
         return state.goodsList
     },
+    getMemberList(state){          //获取会员管理列表计算属性
+        
+        return state.memberList
+    },
+    getBannerList(state){          //获取轮播图计算属性
+        
+        return state.bannerList
+    },
+    getSeckList(state){          //获取秒杀计算属性
+        
+        return state.seckList
+    },
 }

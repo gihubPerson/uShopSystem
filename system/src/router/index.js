@@ -65,6 +65,27 @@ let router = new Router({
           }
         },
         {
+          path: '/member',
+          component: () => import('../components/views/member'),
+          meta: {
+            name: '会员管理'
+          }
+        },
+        {
+          path: '/banner',
+          component: () => import('../components/views/banner'),
+          meta: {
+            name: '轮播图管理'
+          }
+        },
+        {
+          path: "/seck",
+          component: () => import('../components/views/seck'),
+          meta: {
+            name: "活动列表"
+          }
+        },
+        {
           path: '*',
           redirect: '/home'
         }

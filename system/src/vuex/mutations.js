@@ -14,8 +14,17 @@ export default{
     changeSpecsList(state,n){  //更新商品规格列表
         state.specsList = n
     },
-    changeGoodsList(state,n){  //更新商品规格列表
+    changeGoodsList(state,n){  //更新商品管理列表
         state.goodsList = n
+    },
+    changeMemberList(state,n){  //更新会员管理列表
+        state.memberList = n
+    },
+    changeBannerList(state,n){  //更新轮播图列表
+        state.bannerList = n
+    },
+    changeSeckList(state,n){  //更新秒杀列表
+        state.seckList = n
     },
 
 }

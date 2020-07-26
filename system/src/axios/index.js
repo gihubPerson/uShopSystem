@@ -182,7 +182,7 @@ export function getSpecsCount(){
 
 
 
-//     ==================   商品管理接口
+//     ==================   轮播图接口
 //添加商品管理列表
 export function addGoodsList(data){
     return axios.post('/api/goodsadd',data)
@@ -215,4 +215,94 @@ export function EditGoodsList(data){
 //获取数量列表
 export function getGoodsCount(){
     return axios.get('/api/goodscount')
+}
+
+
+
+
+
+//     ==================   会员管理接口
+//获取商品管理列表
+export function getMemberList(params){
+    return axios.get('/api/memberlist',{
+        params
+    })
+}
+
+
+//获取特定条数据
+export function getMemberInfo(params){
+    return axios.get('/api/memberinfo',{
+        params
+    })
+}
+
+//修改商品管理列表
+export function EditMemberList(data){
+    return axios.post('/api/memberedit',data)
+}
+
+
+//     ==================   轮播图接口
+//添加商品管理列表
+export function addBannerList(data){
+    return axios.post('/api/banneradd',data)
+}
+
+//获取商品管理列表
+export function getBannerList(params){
+    return axios.get('/api/bannerlist',{
+        params
+    })
+}
+
+//删除商品管理列表
+export function delBannerList(data){
+    return axios.post('/api/bannerdelete',data)
+}
+
+
+//获取特定条数据
+export function getBannerInfo(params){
+    return axios.get('/api/bannerinfo',{
+        params
+    })
+}
+
+//修改商品管理列表
+export function EditBannerList(data){
+    return axios.post('/api/banneredit',data)
+}
+
+
+//     ==================   秒杀接口
+//添加商品管理列表
+export function addSeckList(data){
+    console.log(data);
+    return axios.post('/api/seckadd',data)
+}
+
+//获取商品管理列表
+export function getSeckList(params){
+    return axios.get('/api/secklist',{
+        params
+    })
+}
+
+//删除商品管理列表
+export function delSeckList(data){
+    return axios.post('/api/seckdelete',data)
+}
+
+
+//获取特定条数据
+export function getSeckInfo(params){
+    return axios.get('/api/seckinfo',{
+        params
+    })
+}
+
+//修改商品管理列表
+export function EditSeckList(data){
+    return axios.post('/api/seckedit',data)
 }
