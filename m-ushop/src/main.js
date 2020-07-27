@@ -31,9 +31,15 @@ import 'vant/lib/index.css';
 
 Vue.use(Vant);
 
+import store from './Vuex'
+
+//图片服务器地址
+Vue.prototype.$img = 'http://localhost:3000'
+
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

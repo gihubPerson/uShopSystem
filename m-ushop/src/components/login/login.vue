@@ -3,11 +3,11 @@
     <my-header :title="title"></my-header>
     <van-form @submit="onSubmit">
       <van-field
-        v-model="username"
-        name="username"
-        label="用户名 :"
-        placeholder="用户名"
-        :rules="[{ required: true, message: '请填写用户名' }]"
+        v-model="phone"
+        name="phone"
+        label="手机号 :"
+        placeholder="手机号"
+        :rules="[{ required: true, message: '请填写手机号' }]"
       />
       <van-field
         v-model="password"
@@ -29,20 +29,30 @@
 
 <script>
 import myHeader from "../public/header";
+import {login} from '@/axios'
 export default {
   data() {
     return {
       title: "登录",
-      username: "",
+      phone: "",
       password: "",
     };
   },
   components: {
     myHeader,
   },
+
   methods: {
     onSubmit(values) {
-        localStorage.setItem("user",JSON.stringify(values))
+        login(values).then((res)=>{
+          if(res.data.code == 200){
+            let n = JSON.stringify(res.data.list)
+            localStorage.setItem("user",n)
+            this.$router.push({
+              path:"/home"
+            })
+          }
+        })
     },
   },
 };

@@ -10,7 +10,7 @@
         :rules="[{ required: true, message: '请填写昵称' }]"
       />
       <van-field
-        v-model.trim.number="phone"
+        v-model="phone"
         name="phone"
         label="手机号 :"
         placeholder="手机号"
@@ -36,7 +36,7 @@
         <a class="reSend" @click="start" href="javaScript:;">
           重新发送(
           <van-count-down
-          class="time"
+            class="time"
             ref="countDown"
             :time="60000"
             :auto-start="false"
@@ -62,6 +62,7 @@
 
 <script>
 import myHeader from "../public/header";
+import { register } from "@/axios";
 export default {
   data() {
     return {
@@ -79,6 +80,15 @@ export default {
   methods: {
     onSubmit(values) {
       console.log(values);
+      if (this.checkbox) {
+        register(values).then((res) => {
+          if (res.data.code == 200) {
+            this.$router.push({
+              path: "/login",
+            });
+          }
+        });
+      }
     },
     start() {
       this.$refs.countDown.start();
@@ -110,8 +120,9 @@ export default {
   color: #ccc;
   font-size: 0.3rem;
 }
-.time{
-    display inline-block
-    color: #ccc;
+
+.time {
+  display: inline-block;
+  color: #ccc;
 }
 </style>
