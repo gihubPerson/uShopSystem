@@ -1,22 +1,37 @@
 <template>
     <div class="list fl">
             <ul>
-                <li class="active">施华蔻</li>
-                <li>沙宣</li>
-                <li>欧莱雅</li>
-                <li>潘婷</li>
-                <li>资生堂</li>
-                <li>阿道夫</li>
-                <li>卡诗</li>
-                <li>海飞丝</li>
-                <li>资生堂</li>
+                <li @click="list(idx)" 
+                :class="activeClass == idx? 'active' : ''" 
+                v-for="(item,idx) in getClass" 
+                :key="item.id"
+                >
+                {{item.catename}}</li>
             </ul>
         </div>
 </template>
 
 <script>
+import {getClass} from '@/axios'
+import {mapActions,mapGetters} from 'vuex'
 export default {
-   
+   data(){
+     return{
+       activeClass:0
+     }
+   },
+   computed: {
+     ...mapGetters(['getClass'])
+   },
+   mounted() {
+     this.getClassList()
+   },
+   methods: {
+    ...mapActions(['getClassList']),
+    list(idx){
+      this.activeClass = idx
+    }
+   },
 }
 </script>
 

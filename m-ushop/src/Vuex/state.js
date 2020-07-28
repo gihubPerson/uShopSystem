@@ -1,3 +1,3 @@
 export default {
-    msg:"state数据"
+    clssList:[] //分类列表
 }

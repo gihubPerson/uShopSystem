@@ -1,5 +1,5 @@
 export default {
-    changeMsg(state,n){
-        state.msg = n
+    pushClassList(state,newList){
+        state.clssList = newList
     },
 }

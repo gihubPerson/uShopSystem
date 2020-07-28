@@ -11,11 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': 'http://localhost:3000'
+      '/api': { //设置跨域请求的关键字
+        target: 'http://localhost:3000', //跨域地址
+        changeOrigin: true, //是否开启跨域
+        pathRewrite: {  //可以不写这个属性
+          '^/api': 'http://localhost:3000' 
+          /*重写地址,如果在全局中在请求地址前加上/api,
+            则这句话会把加上的/api改成'http://localhost:3000' */
         }
       }
     },

@@ -1,5 +1,8 @@
+import {getClass} from '@/axios'
 export default {
-    changeMsgY({commit},m){
-        commit('changeMsg',m)
+    getClassList({commit}){
+        getClass().then((res)=>{
+            commit('pushClassList',res.data.list)
+        })
     }
 }

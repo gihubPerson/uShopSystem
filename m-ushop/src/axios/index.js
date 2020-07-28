@@ -16,3 +16,8 @@ export function register(params){
 export function login(params){
     return axios.post('/api/login',params)
 }
+
+//获取分类
+export function getClass(data){
+    return axios.get('/api/getcate',data)
+}

@@ -1,4 +1,3 @@
-//接口列表
 
 import axios from './axios'
 

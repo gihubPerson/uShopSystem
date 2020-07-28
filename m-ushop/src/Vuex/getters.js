@@ -1,5 +1,5 @@
 export default {
-    getMsg(state){
-        return state.msg
+    getClass(state){
+        return state.clssList
     },
 }
