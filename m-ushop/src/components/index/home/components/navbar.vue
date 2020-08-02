@@ -1,38 +1,10 @@
 <template>
   <nav class="navbar">
     <ul>
-      <li class="active">
-        <a href="#">推荐</a>
+        <li :class="activeClass == idx ? 'active' : ''" @click='activeList(idx)' v-for="(item,idx) in getClass" :key="item.id">
+        <a href="javaScript:;">{{item.catename}}</a><span></span>
       </li>
-      <span></span>
-      <li>
-        <a href="#">女装</a>
-      </li>
-      <span></span>
-      <li>
-        <a href="#">鞋包</a>
-      </li>
-      <span></span>
-      <li>
-        <a href="#">居家</a>
-      </li>
-      <span></span>
-      <li>
-        <a href="#">母婴儿童</a>
-      </li>
-      <span></span>
-      <li>
-        <a href="#">美食</a>
-      </li>
-      <span></span>
-      <li>
-        <a href="#">果蔬</a>
-      </li>
-      <span></span>
-      <li>
-        <a href="#">推荐</a>
-      </li>
-      <span></span>
+      
     </ul>
     <div class="arr">
       <img :src="selectIco" alt="下拉" />
@@ -40,12 +12,27 @@
   </nav>
 </template>
 <script>
+import {mapActions,mapGetters} from 'vuex'
 export default {
   data() {
     return {
-      selectIco: require("../../../../assets/images/arrow.jpg")
+      selectIco: require("../../../../assets/images/arrow.jpg"),
+      activeClass:0
     };
-  }
+  },
+  computed: {
+     ...mapGetters(['getClass'])
+   },
+   mounted() {
+     this.getClassList()
+   },
+   methods: {
+    ...mapActions(['getClassList']),
+    activeList(idx){
+      this.activeClass = idx
+   }
+   },
+   
 };
 </script>
 <style lang="" scoped>
@@ -60,6 +47,7 @@ export default {
   display: flex;
 }
 .navbar ul li {
+  height: .3rem;
   flex-shrink: 0;
   padding: 0.21rem 0 0.15rem 0;
   margin-left: 0.2rem;

@@ -9,9 +9,9 @@
     <div class="number">
       <span>购买数量</span>
       <div>
-        <em>-</em>
-        <b>1</b>
-        <em>+</em>
+        <em @click="addNum(false)">-</em>
+        <b>{{num}}</b>
+        <em @click="addNum(true)">+</em>
       </div>
     </div>
     <div class="attr">
@@ -27,7 +27,27 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+      num:1
+    }
+  },
+  methods: {
+    addNum(isAdd){
+      if(isAdd){
+        this.num = this.num<99 ? this.num + 1 : 99
+      }else{
+        this.num = this.num>1 ? this.num - 1 : 1
+      }
+  }
+  },
+  watch: {
+    num(newV){
+      this.$emit('num',newV)
+    }
+  },
+};
 </script>
 
 <style lang="" scoped>

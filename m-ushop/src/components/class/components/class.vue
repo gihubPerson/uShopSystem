@@ -1,16 +1,19 @@
 <template>
   <div class="productTop">
+    <div v-for="item in allProducts.children" :key="item.id">
     <div class="title">
-      <div class="class">{{ allProducts.title }}</div>
+      <div class="class">{{ item.catename }}</div>
       <a href="#">
         更多
         <span class="iconfont">&#xe65e;</span>
       </a>
     </div>
     <div class="all">
-      <my-product v-for="item in allProducts.products" :key="item.id" :product="item"></my-product>
+      <my-product :cateId="item.id"></my-product>
     </div>
   </div>
+    </div>
+    
 </template>
 
 <script>

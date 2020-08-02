@@ -1,47 +1,70 @@
 <template>
   <div class="product">
     <ul>
-      <my-product v-for="item in products" :key="item.id" :product="item"></my-product>
+      <my-product @eachPrice="eachPrice" v-for="item in products" :key="item.id" :product="item"></my-product>
     </ul>
   </div>
 </template>
 
 <script>
+import { getCart } from "@/axios";
+
 import myProduct from "./product";
 export default {
+  props:['allChecked'],
   components: {
-    myProduct
+    myProduct,
   },
   data() {
     return {
-      products: [
-        {
-          id:21,
-          name: "欧莱雅面霜",
-          norms: 50,
-          price: 123,
-          num: 1,
-          imgSrc: require("../../../../assets/images/shop_4.jpg")
-        },
-        {
-          id:22,
-          name: "雅诗兰黛护手霜",
-          norms: 50,
-          price: 26,
-          num: 1,
-          imgSrc: require("../../../../assets/images/shop_5_07.jpg")
-        },
-        {
-          id:23,
-          name: "雅诗兰黛素颜霜",
-          norms: 50,
-          price: 226,
-          num: 1,
-          imgSrc: require("../../../../assets/images/shopCart.jpg")
-        }
-      ]
+      products: [],
+      Prices: [],
+      totlePrice: 0,
+      productNum: 0,
+      isChecked:[]
     };
-  }
+  },
+  mounted() {
+    this.uid = JSON.parse(localStorage.getItem("user")).uid;
+    getCart(this.uid).then((res) => {
+      if (res.data.code == 200) {
+        this.products = res.data.list;
+        this.products.map((item) => {
+          this.productNum++;
+          this.isChecked.push({
+            goodsId: item.goodsid,
+            checked:true
+          })
+          this.Prices.push({
+            goodsId: item.goodsid,
+            price: item.price * item.num,
+          });
+          this.totlePrice = item.price * item.num + this.totlePrice;
+        });
+        this.$emit("productNum", this.productNum);
+        this.$store.commit('changeIsCheked',this.isChecked)
+      }
+    });
+  },
+  methods: {
+    eachPrice(price) {
+      this.totlePrice = 0;
+      this.Prices.map((item, idx) => {
+        if (item.goodsId == price.goodsId) {
+          this.Prices[idx] = price;
+        }
+      });
+      this.Prices.map((item) => {
+        this.totlePrice = item.price + this.totlePrice;
+      });
+    },
+  },
+  watch: {
+    totlePrice(newV) {
+      this.$emit("totlePrice", newV);
+    },
+    
+  },
 };
 </script>
 

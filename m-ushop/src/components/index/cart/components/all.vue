@@ -1,19 +1,19 @@
 <template>
   <div class="all clearfix">
     <form action="#" method="post">
-      <input type="checkbox" name="all" />
+      <input type="checkbox" @change="isAll" v-model="isChecked" />
       <span>全选</span>
     </form>
     <a href="javaScript:;" @click="$router.push('/confirm')">
       <div class="buy">
         去结算(
-        <span>2</span>件)
+        <span>{{productNum}}</span>件)
       </div>
     </a>
     <div class="allPrice">
       <h5>
         总计：
-        <span>163.00</span>
+        <span>{{allPrice | toPrice(2)}}</span>
       </h5>
       <p>不含运费，已优惠￥0.00</p>
     </div>
@@ -21,7 +21,35 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+export default {
+  props: ["allPrice", "productNum"],
+  data() {
+    return {
+      isChecked: false,
+    };
+  },
+  computed: {
+    ...mapGetters(["getChecked"]),
+  },
+  methods: {
+    isAll() {
+      this.getChecked.map((item,idx)=>{
+          item.checked = this.isChecked
+      })
+      this.$store.commit("changeAllChecked", this.getChecked);
+    },
+  },
+  watch: {
+    getChecked: {
+      handler(newV) {
+        let isAll = newV.every((item) => item.checked == true);
+        this.isChecked = isAll;
+      },
+      deep: true,
+    },
+  },
+};
 </script>
 
 <style lang="" scoped>

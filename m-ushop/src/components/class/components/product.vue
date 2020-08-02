@@ -1,15 +1,28 @@
 <template>
-    <a href="#">
-      <div class="box">
-        <img :src="product.imgSrc" alt="洗发水" />
-        <h6>{{ product.name }}</h6>
+  <a href="#">
+    <div class="box">
+      <div v-for="item in goodsList" :key="item.id">
+        <img :src="$img + item.img" alt="洗发水" />
+        <h6>{{ item.goodsname }}</h6>
       </div>
-    </a>
+    </div>
+  </a>
 </template>
 
 <script>
+import { getGoods } from "@/axios";
 export default {
-  props: ["product"]
+  data() {
+    return {
+      goodsList: [],
+    };
+  },
+  props: ["cateId"],
+  mounted() {
+    getGoods(this.cateId).then((res) => {
+      this.goodsList = res.data.list;
+    });
+  },
 };
 </script>
 

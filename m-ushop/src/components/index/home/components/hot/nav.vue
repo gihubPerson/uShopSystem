@@ -2,8 +2,8 @@
   <div>
     <div class="hotNav">
       <ul>
-        <li :class="[idx == activeIdx ? 'active' : '']" v-for="(item,idx) in til" :key='item.product.id' @click='change(idx)'>
-          <a href="javaScript:;">{{ item.title }}</a>
+        <li :class="[idx == activeIdx ? 'active' : '']" v-for="(item,idx) in til" :key='item.content' @click='change(idx)'>
+          <a href="javaScript:;">热门推荐</a>
         </li>
       </ul>
     </div>

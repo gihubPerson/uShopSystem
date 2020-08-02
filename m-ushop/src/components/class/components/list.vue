@@ -1,9 +1,9 @@
 <template>
     <div class="list fl">
             <ul>
-                <li @click="list(idx)" 
-                :class="activeClass == idx? 'active' : ''" 
-                v-for="(item,idx) in getClass" 
+                <li @click="changeList(item.id)" 
+                :class="activeClass == item.id? 'active' : ''" 
+                v-for="(item) in getGoodsList" 
                 :key="item.id"
                 >
                 {{item.catename}}</li>
@@ -13,23 +13,24 @@
 
 <script>
 import {getClass} from '@/axios'
-import {mapActions,mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 export default {
+  props:['list'],
    data(){
      return{
-       activeClass:0
+       activeClass:8
      }
    },
    computed: {
-     ...mapGetters(['getClass'])
+     ...mapGetters(['getGoodsList'])
    },
    mounted() {
-     this.getClassList()
    },
    methods: {
-    ...mapActions(['getClassList']),
-    list(idx){
-      this.activeClass = idx
+    changeList(id){
+      console.log(id);
+      this.activeClass = id
+      this.$emit('changeList',id)
     }
    },
 }

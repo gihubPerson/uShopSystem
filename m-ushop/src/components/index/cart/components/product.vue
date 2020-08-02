@@ -1,31 +1,84 @@
 <template>
-      <li>
-        <form action="#" method="post">
-          <input type="checkbox" name="product" />
-        </form>
-        <img :src="product.imgSrc" alt="脸霜" />
-        <div class="text">
-          <h5>{{ product.name }}</h5>
-          <div class="norms">规格：{{ product.norms }}g</div>
-          <div class="price">￥{{ product.price | toPrice(2) }}</div>
-        </div>
-        <div class="number">
-          <em>-</em>
-          <b>{{ product.num }}</b>
-          <em>+</em>
-        </div>
-        <div class="del">删除</div>
-      </li>
+  <li v-if="this.product">
+    <form action="#" method="post">
+      <input v-model="isChecked" type="checkbox" />
+    </form>
+    <img :src="$img + product.img" alt="脸霜" />
+    <div class="text">
+      <h5>{{ product.goodsname }}</h5>
+      <div class="price">￥{{ product.price | toPrice(2) }}</div>
+    </div>
+    <div class="number">
+      <em @click="addNum(false)">-</em>
+      <b>{{ num }}</b>
+      <em @click="addNum(true)">+</em>
+    </div>
+    <div class="del">删除</div>
+  </li>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  props:['product']
+  data() {
+    return {
+      totlePrice: "",
+      num: "",
+      isChecked: true,
+    };
+  },
+  computed: {
+    ...mapGetters(["getAllChecked", "getChecked"]),
+  },
+  mounted() {
+    this.$emit("totlePrice", this.totlePrice);
+    this.num = this.product.num;
+  },
+  props: ["product"],
+  methods: {
+    addNum(idAdd) {
+      if (idAdd) {
+        this.num++;
+        this.totlePrice = this.num * this.product.price;
+      } else {
+        this.num = this.product.num > 1 ? this.product.num-- : 1;
+        this.totlePrice = this.num * this.product.price;
+      }
+    },
+  },
+  watch: {
+    totlePrice(newV) {
+      this.$emit("eachPrice", {
+        goodsId: this.product.goodsid,
+        price: newV,
+      });
+    },
+    isChecked(newV) {
+      this.getChecked.map((item, idx) => {
+        if (item.goodsId == this.product.goodsid) {
+          item.checked = this.isChecked;
+          this.getChecked[idx] = item;
+        }
+      });
+      this.$store.commit("changeIsCheked", this.getChecked);
+    },
+    getAllChecked: {
+      handler() {
+        this.getChecked.map((item) => {
+          if (item.goodsId == this.product.goodsid) {
+            this.isChecked = item.checked;
+          }
+        });
+      },
+      deep: true,
+    },
+  },
 };
 </script>
 
 <style lang="" scoped>
 li {
+  height: 1.6rem;
   width: 100.58%;
   display: flex;
   padding: 0 0.31rem 0 0.24rem;

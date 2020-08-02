@@ -7,62 +7,63 @@ let r = new Router({
   // mode:'history',
   routes: [
     {
-      path:'/index',
-      component:()=>import('../components/index/index'),
-      children:[
+      path: '/index',
+      component: () => import('../components/index/index'),
+      children: [
         {
-          path:'/home',
-          component:()=>import('../components/index/home/home'),
+          path: '/home',
+          component: () => import('../components/index/home/home'),
         },
         {
-          path:'/cart',
-          alias:'/shopping',
-          component:()=>import('../components/index/cart/cart'),
+          path: '/cart',
+          alias: '/shopping',
+          component: () => import('../components/index/cart/cart'),
           beforeEnter: (to, from, next) => {
-            if(localStorage.getItem('user') != null){
+            if (localStorage.getItem('user') != null) {
               console.log(1);
-              next()            
+              next()
             }
           }
         },
         {
-          path:'/mine',
-          component:()=>import('../components/index/mine/mine'),
+          path: '/mine',
+          component: () => import('../components/index/mine/mine'),
         },
         {
-          path:'/confirm',
-          component:()=>import('../components/confirm/confirm'),
+          path: '/confirm',
+          component: () => import('../components/confirm/confirm'),
+        },
+
+        {
+          path: '/list',
+          component: () => import('../components/list/list')
         },
         {
-          path:'/detail',
-          component:()=>import('../components/detail/detail'),
-          name:"toDetail"
-        },
-        {
-          path:'/list',
-          component:()=>import('../components/list/list')
-        },
-        {
-          path:'',
-          redirect:'/home'
+          path: '',
+          redirect: '/home'
         }
       ]
     },
     {
-      path:'/class',
-      component:()=>import('../components/class/class')
+      path: '/class',
+      component: () => import('../components/class/class')
     },
     {
-      path:'/login',
-      component:()=>import('../components/login/login')
+      path: '/login',
+      component: () => import('../components/login/login')
     },
     {
-      path:'/signup',
-      component:()=>import('../components/signUp/signup')
+      path: '/signup',
+      component: () => import('../components/signUp/signup')
     },
     {
-      path:"*",
-      redirect:'/index'
+      path: '/detail',
+      component: () => import('../components/detail/detail'),
+      name: "toDetail"
+    },
+    {
+      path: "*",
+      redirect: '/index'
     }
   ]
 })

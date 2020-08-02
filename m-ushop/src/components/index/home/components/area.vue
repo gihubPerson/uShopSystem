@@ -31,6 +31,7 @@
         </div>
 </template>
 <script>
+import {getSecl} from '@/axios'
 export default {
     data(){
         return {
@@ -43,7 +44,12 @@ export default {
             logoSrc:require('../../../../assets/images/brand.jpg'),
             icoSrc:require('../../../../assets/images/timer.jpg')
         }
-    }
+    },
+    mounted() {
+      getSecl().then((res)=>{
+        console.log(res);
+      })
+    },
 }
 </script>
 <style lang="" scoped>
