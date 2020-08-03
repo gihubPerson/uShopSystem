@@ -10,8 +10,8 @@ class List extends React.Component {
         // this.props.history.push('/play/' + id + '/' + title)
         // this.props.history.push(`/play?id=${id}title=${title}`)
         this.props.history.push({
-            pathname:"/play",
-            state:{
+            pathname: "/play",
+            state: {
                 id,
                 title
             }
@@ -22,18 +22,24 @@ class List extends React.Component {
         let { songList } = this.props
         return (
             <div>
-                <ul  className="hotSongs">
+                <ul className="hotSongs">
                     {
-                        songList.map(item => {
-                            return <li onClick={() => this.aa(item.id, item.title)} key={item.id} className='newSongs'>
+                        songList.map((item, idx) => {
+                            return <li onClick={() => this.aa(item.id, item.name)} key={item.id} className='newSongs'>
                                 <div className="num">
-                                    {item.num}
+                                    {(idx + 1).toString().padStart(2, '0')}
                                 </div>
                                 <div>
-                                    <div className='theSong'>{item.song}</div>
-                                    <div className="theSinger"><span className="sq">SQ</span>{item.singer}</div>
+                                    <div className='theSong'>{item.name}</div>
+                                    <div className="theSinger"><span className="sq">SQ</span>
+                                    {
+                                        item.ar.map((theItem,idx)=>{
+                                        return <span key={item.id}>{theItem.name}{item.ar.map.length-1 == idx ? '' : '/'}</span>
+                                        })
+                                    }
+                                    -{item.al.name}</div>
                                 </div>
-                                <div className='play'><img src={require('../../assets/img/QXbpD5KOv8.png')} alt=""/></div>
+                                <div className='play'><img src={require('../../assets/img/QXbpD5KOv8.png')} alt="" /></div>
                             </li>
                         })
                     }

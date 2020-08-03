@@ -8,8 +8,6 @@ import App from './App'
 import './assets/js/remScale'
 //样式重置文件
 import './assets/css/reset.css'
-//antcss
-import 'antd-mobile/dist/antd-mobile.css'
 
 import { BrowserRouter } from 'react-router-dom'
 
