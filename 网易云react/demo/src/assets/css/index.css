@@ -1,0 +1,45 @@
+.fixed {
+  z-index: 10;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-color: #fff;
+}
+.fixed .header {
+  padding: 0 0.2rem 0 0.2rem;
+  height: 1.68rem;
+  line-height: 1.68rem;
+  background-color: #d43c33;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fixed .header img {
+  display: block;
+  width: 2.8rem;
+}
+.fixed .header a {
+  height: 0.72rem;
+  background-color: #fff;
+  line-height: 0.72rem;
+  color: #000;
+  border-radius: 0.36rem;
+  width: 2rem;
+  text-align: center;
+}
+.fixed .nav {
+  height: 0.8rem;
+  display: flex;
+  justify-content: space-around;
+  font: 400 15px/0.8rem Helvetica, sans-serif, STHeiTi;
+  border-bottom: 1px solid #ccc;
+}
+.fixed .nav a {
+  color: #333;
+}
+.fixed .nav .active {
+  color: #d43c33;
+}
+.inner {
+  padding-top: 2.5rem;
+}

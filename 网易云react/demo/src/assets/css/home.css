@@ -1,0 +1,48 @@
+.cardList {
+  display: flex;
+  flex-wrap: wrap;
+}
+.cardList .cardTitle {
+  height: 0.8rem;
+  font: normal 13px/1.5 Helvetica, sans-serif, STHeiTi;
+  justify-content: space-around;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.cardList li {
+  flex-shrink: 0;
+  width: 33vw;
+  padding-bottom: 0.32rem;
+}
+.cardList li img {
+  width: 100%;
+}
+.newSongs {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.12rem 0.2rem 0.12rem 0.2rem;
+}
+.newSongs .theSong {
+  color: #000;
+  font: normal 17px/1.5 Helvetica, sans-serif, STHeiTi;
+}
+.newSongs .theSinger {
+  font: normal 12px/1.5 Helvetica, sans-serif, STHeiTi;
+}
+.newSongs .theSinger .sq {
+  font-size: 2px;
+  color: red;
+  border: 1px solid;
+  margin-right: 0.1rem;
+}
+.newSongs .play {
+  line-height: 1rem;
+}
+.newSongs .play img {
+  width: 0.44rem;
+}

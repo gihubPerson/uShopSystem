@@ -1,0 +1,49 @@
+.cardList{
+    display: flex;
+    flex-wrap: wrap;
+    .cardTitle{
+        height: .8rem;
+        font: normal 13px/1.5 Helvetica,sans-serif,STHeiTi;
+        justify-content: space-around;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    
+    li{
+        flex-shrink: 0;
+        width: 33vw;
+        padding-bottom: .32rem;
+        img{
+            width: 100%;
+        }
+    }
+}
+.newSongs{
+    display: flex;
+    justify-content: space-between;
+    padding: .12rem .2rem .12rem .2rem;
+    .theSong{
+        color: #000;
+        font: normal 17px/1.5 Helvetica,sans-serif,STHeiTi;
+    }
+    .theSinger{
+        font: normal 12px/1.5 Helvetica,sans-serif,STHeiTi;
+        .sq{
+            font-size: 2px;
+            color: red;
+            border: 1px solid;
+            margin-right: .1rem;
+        }
+    }
+    .play{
+        line-height: 1rem;
+        img{
+            width: .44rem;
+        }
+    }
+}
