@@ -11,4 +11,7 @@ export default {
     changeGoodsList(state,newV){
         state.goodsList = newV
     },
+    changeCartList(state,newV){
+        state.cartList = newV
+    },
 }

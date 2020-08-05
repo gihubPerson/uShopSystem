@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-let r = new Router({
+let router = new Router({
   // mode:'history',
   routes: [
     {
@@ -20,8 +20,9 @@ let r = new Router({
           component: () => import('../components/index/cart/cart'),
           beforeEnter: (to, from, next) => {
             if (localStorage.getItem('user') != null) {
-              console.log(1);
               next()
+            }else{
+              next('/login')
             }
           }
         },
@@ -68,4 +69,4 @@ let r = new Router({
   ]
 })
 
-export default r
+export default router

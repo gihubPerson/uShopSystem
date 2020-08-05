@@ -3,5 +3,6 @@ export default {
     cartPrice:[], //购物车总价对象
     isCheked:[],
     allChecked:true,
-    goodsList:[]
+    goodsList:[],
+    cartList:[]
 }

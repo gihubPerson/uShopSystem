@@ -20,7 +20,16 @@ export function getHotSearch(){
     return axios.get(`/search/hot`)
 }
 
-//热搜
+//banner
+export function getBanner(type){
+    return axios.get(`/banner`,{
+        params:{
+            type
+        }
+    })
+}
+
+//
 export function getSearchResult(keywords){
     return axios.get(`/search`,{
         params:{

@@ -67,4 +67,10 @@ export function getGoodsInfo(id) {
         }
     })
 }
+//删除购物车
+export function cartDel(id) {
+    return axios.post('/api/cartdelete', {
+       id
+    })
+}
 

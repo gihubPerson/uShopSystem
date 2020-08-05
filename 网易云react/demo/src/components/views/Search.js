@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 import { getHotSearch, getSearchResult, getSearchSuggest } from '../../axios'
 import '../../assets/css/search.css'
 import Item from 'antd/lib/list/Item'
@@ -115,6 +116,7 @@ class Home extends React.Component {
         return (
             <div className="hotCont">
                 <div className='ipt'>
+                    {/* 搜索输入框 */}
                     <input onKeyDown={() => { this.enter() }} ref={this.input} onChange={(event) => { this.inputChange(event) }} value={value} type="text" />
                     {
                         value == '' ? '' : <i onClick={() => this.clear()}>X</i>

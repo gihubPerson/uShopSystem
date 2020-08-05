@@ -49,7 +49,7 @@ export default {
     },
     addCart(){
       cartAdd(this.cartInfo).then((res)=>{
-        console.log(res);
+        this.$router.push('/cart')
       })
   }
   },

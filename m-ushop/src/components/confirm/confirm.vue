@@ -24,7 +24,10 @@ export default {
         return {
             title:"我的订单",
         }
-    }
+    },
+    mounted() {
+        console.log(this.$route.metch);
+    },
 }
 </script>
 

@@ -4,7 +4,7 @@
       <input type="checkbox" @change="isAll" v-model="isChecked" />
       <span>全选</span>
     </form>
-    <a href="javaScript:;" @click="$router.push('/confirm')">
+    <a href="javaScript:;" @click="buy">
       <div class="buy">
         去结算(
         <span>{{productNum}}</span>件)
@@ -39,6 +39,11 @@ export default {
       })
       this.$store.commit("changeAllChecked", this.getChecked);
     },
+    buy(){
+      this.$router.push({
+        path:'/confirm'
+      })
+    }
   },
   watch: {
     getChecked: {

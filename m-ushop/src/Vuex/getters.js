@@ -11,5 +11,8 @@ export default {
     getGoodsList(state){
         return state.goodsList
     },
+    getCart(state){
+        return state.cartList
+    },
 
 }

@@ -1,5 +1,5 @@
 <template>
-  <li v-if="this.product">
+  <li ref='li' v-if="this.product" @touchstart='start' @touchmove='move'>
     <form action="#" method="post">
       <input v-model="isChecked" type="checkbox" />
     </form>
@@ -13,18 +13,21 @@
       <b>{{ num }}</b>
       <em @click="addNum(true)">+</em>
     </div>
-    <div class="del">删除</div>
+    <div @click="del(product.id)" class="del">删除</div>
   </li>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import {cartDel} from '@/axios'
 export default {
   data() {
     return {
       totlePrice: "",
       num: "",
       isChecked: true,
+      touchstart:'',
+      touchend:'',
     };
   },
   computed: {
@@ -41,10 +44,28 @@ export default {
         this.num++;
         this.totlePrice = this.num * this.product.price;
       } else {
-        this.num = this.product.num > 1 ? this.product.num-- : 1;
+        this.num = this.num > 1 ? this.num-1 : 1;
         this.totlePrice = this.num * this.product.price;
       }
     },
+    move(e){
+      this.touchend = e.changedTouches[0].clientX
+      let moveClient = this.touchend - this.touchstart
+      if(moveClient < 0){
+        if(-moveClient > 30){
+          moveClient = -30
+        }
+        this.$refs.li.style.left = moveClient + 'px'
+      }
+    },
+    start(e){
+      this.touchstart = e.changedTouches[0].clientX
+    },
+    del(id){
+      cartDel(id).then(res=>{
+        this.$emit('update')
+      })
+    }
   },
   watch: {
     totlePrice(newV) {
